@@ -1,4 +1,4 @@
-,NO,SAMPLE_ID,식품코드,DB군,식품명,1회제공량(g),에너지(㎉),단백질(g),지방(g),탄수화물(g),총당류(g),Food name
+id,NO,SAMPLE_ID,code,DB,Foodname1, One_timesupply,energy,Protein,Fat,Carbohydrate,Totalsugars,Foodname2
 0,1.0,D000006-94-AVG,D000006,음식,꿩불고기,500.0,368.8,33.5,8.5,39.7,16.9,Pheasant Bulgogi
 1,2.0,D000007-ZZ-AVG,D000007,음식,닭갈비,400.0,595.61,45.9,25.8,44.9,21.2,Spicy grilled chicken
 2,3.0,D000008-66-AVG,D000008,음식,닭갈비,300.0,558.47,45.5,31.6,23.1,8.5,Spicy grilled chicken
