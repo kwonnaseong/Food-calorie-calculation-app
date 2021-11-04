@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <div class="container">
+        <input type="button" class="btn btn-dark" value="Post Create" onClick="location.href='http://localhost:8000/blog/create/'">
+        <input type="button" class="btn btn-dark" value="Recommended Recipe" onClick="location.href='http://localhost:8000/blog/randomrecipe/'">
+    </div>
+
+    <br>
+    {% for post in post_list %}
+        <div class="container">
+            <div class="jumbotron">
+                <h2>Title : {{ post.title }}</h2>
+                <hr>
+                <div class="row">
+                <div class="col-md-6">
+                    {% for photo in post.photo_set.all%}
+                        <img src="{{photo.image.url}}" width="500" height="400"><br>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-4">
+                    <h3>food detection output</h3>
+                    {% for i in post.output_set.all %}
+                            food name : {{ i.name }}
+                             <hr>
+                            {{ i.One_timesupply }} g 당 {{ i.energy }} kcal
+                            <br>
+                            carbohydrate : {{ i.Carbohydrate }} g
+                            <br>
+                            protein : {{ i.Protein }} g
+                            <br>
+                            fat : {{ i.Fat }} g
+                            <br>
+                            sugar : {{ i.Totalsugars }} g
+                            <hr>
+                        <h5>{{ output.name }}</h5>
+                    {% endfor %}
+                </div>
+                </div>
+                <br>
+                <div class="container">
+                    <input type="button" class="btn btn-primary" value="{{ post.title }} Nutrition 보기" onClick="location.href='http://localhost:8000/blog/detail/{{ post.id }}/'">
+                </div>
+            </div>
+
+        </div>
+    {% endfor %}
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if post_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ post_list.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+        {% for page_number in post_list.paginator.page_range %}
+            {% if page_number == post_list.number %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if post_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ post_list.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+{% endblock %}

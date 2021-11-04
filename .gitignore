@@ -1,0 +1,9 @@
+__pycache__
+db.sqlite3
+media
+.idea
+blog/__pycache__
+p_result.txt
+image_paths
+common/__pycache__
+common/migrations/__pycache__

@@ -1,6 +1,17 @@
-# Food-calorie-calculation-app
-Food calorie calculation app
+# food-detection-web
+이 깃 저장소는 광운대학교 국방 ict 창의과제 프로젝트를 위해서 제작된 것입니다.
 
-django project files git Link
-https://github.com/Tianea2160/food-detection-web
+웹을 만들었지만 이 프로젝트를 실행하기 위해서는 darknet53을 설치해야합니다. 
+사용환경은 <br>
+ - cuda 11.4<br>
+ - cudnn 11.4에 상응하는 버전<br>
+ - opencv 4.5.3<br>
+ - django <br>
+ - bootstrap 4.5.3<br>
+ 
+을 사용하였습니다.<br>
+또한 프로젝트를 실행하기 위해서 절대경로를 조금 사용하였음으로 절대경로도 컴퓨터마다 새로 지정해주어야 쓸 수 있습니다.<br>(아마 제가 어떻게 사용하는지 안적어놓으면 아무도 안쓸거 같지만 너무 귀찮아서 나중에 추가하겠습니다.)
+
+
+목적 : yolov3를 이용하여서 입력으로 넣은 식단 사진의 음식의 이름을 예상하고 그와 관련된 영양정보를 정리하여 사용자가 보기 좋게 출력한다.
 

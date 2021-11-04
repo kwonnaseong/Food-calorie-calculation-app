@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <div class="container">
+        <input type="button" class="btn btn-dark" value="Back" onClick="location.href='http://localhost:8000/blog/post_list'"><!--hard-->
+    </div>
+<div class="container">
+    <div class="jumbotron">
+        <h2>- 추천 음식 레시피 -</h2>
+        {% for i in title %}
+            <h3>{{ i }}</h3>
+        {% endfor %}<hr>
+        <h2>음식 사진</h2>
+        <img src="{{ img }}" width="800" height="600" alt="random food img">
+        <h2>재료</h2>
+        {% for i in source.values %}
+            {% for j in i %}
+                 /{{ j }}/
+            {% endfor %}
+        {% endfor %}<hr>
+        <h2>조리 과정</h2>
+        {% for i in steps %}
+            {{ i }}<br><br>
+        {% endfor %}<hr>
+    </div>
+</div>
+{% endblock %}

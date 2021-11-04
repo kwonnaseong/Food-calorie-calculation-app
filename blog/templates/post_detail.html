@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% block content %}
+    <script>
+        let total_Carbohydrate = 0.0;
+        let total_sugars = 0.0;
+        let total_energy = 0.0;
+        let total_Protein = 0.0;
+        let total_Fat = 0.0;
+        let total_One_timesupply= 0.0;
+        {% for info in post.total_information_set.all %}
+            total_Carbohydrate = {{ info.total_Carbohydrate }};
+            total_sugars = {{ info.total_sugars }};
+            total_energy = {{ info.total_energy }};
+            total_Protein = {{ info.total_Protein }};
+            total_Fat = {{ info.total_Fat }};
+            total_One_timesupply = {{ info.total_One_timesupply }};
+        {% endfor %}
+    </script>
+    <br>
+    <div class="container">
+        <input type="button" class="btn btn-dark" value="Back" onClick="location.href='http://localhost:8000/blog/post_list'"><!--hard-->
+    </div>
+    <br>
+    <div class="container">
+        <div class="jumbotron">
+            <h2>This is {{ post.id }}th post</h2>
+            <p>Title : {{ post.title }}, Create_at : {{ info.first.create_at }}</p>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    {% for photo in post.photo_set.all %}
+                        <img src="{{photo.image.url}}" width="500" height="400"><br>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    <h5>Food Detection Output</h5>
+                    {% for output in post.output_set.all %}
+                        <p> - {{ output.name }}</p>
+                    {% endfor %}
+
+                </div>
+            </div><hr><br>
+            <h2>Individual Nutrition Facts</h2>
+            <table class="table table-striped">
+                 <thead>
+                       <tr>
+                           <th> food name</th>
+                          <th>total Supply(g)</th>
+                          <th>Carbohydrate(g)</th>
+                          <th>Protein(g)</th>
+                          <th>Fat(g)</th>
+                          <th>sugars(g)</th>
+                          <th>energy(kcal)</th>
+                       </tr>
+                 </thead>
+                 <tbody>
+                     <tr>
+                         {% for output in post.output_set.all %}
+                             <td> {{ output.name }}
+                             <td>{{ output.One_timesupply }}</td>
+                             <td>{{ output.Carbohydrate }}</td>
+                             <td>{{ output.Protein }}</td>
+                             <td>{{ output.Fat }}</td>
+                             <td>{{ output.sugars }}</td>
+                             <td>{{ output.energy }} </td>
+                                <tr>
+
+                                </tr>
+                         {% endfor %}
+                     </tr>
+                 </tbody>
+            </table><hr><br>
+            <h2>Total Nutrition Facts</h2>
+            <table class="table table-striped">
+                 <thead>
+                       <tr>
+                          <th>total Supply(g)</th>
+                          <th>Carbohydrate(g)</th>
+                          <th>Protein(g)</th>
+                          <th>Fat(g)</th>
+                          <th>sugars(g)</th>
+                          <th>energy(kcal)</th>
+                       </tr>
+                 </thead>
+                 <tbody>
+                     <tr>
+                         {% for info in post.total_information_set.all %}
+                             <td>{{ info.total_One_timesupply }}</td>
+                             <td>{{ info.total_Carbohydrate }}</td>
+                             <td>{{ info.total_Protein }}</td>
+                             <td>{{ info.total_Fat }}</td>
+                             <td>{{ info.total_sugars }}</td>
+                             <td>{{ info.total_energy }}</td>
+                         {% endfor %}
+                     </tr>
+                 </tbody>
+            </table><hr><br>
+            <h2>Total Nutrition Facts with Graphs</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="container">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="container">
+                        <canvas id="myChart2"></canvas>
+                    </div>
+                </div>
+            </div><hr><br><br>
+            <h2>Comparison of nutritional content with recent diets</h2><hr>
+            <div class="container">
+                <canvas id="myChart3"></canvas>
+            </div>
+
+        </div>
+    </div>
+<!--그래프로 출력-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script>
+    {# bar 그래프 그리기 #}
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Kcal', 'Carbohydrate(g)', 'Protein(g)', 'Fat(g)', 'Sugar(g)', 'One time supply(g)'],
+            datasets: [{label : 'Total Nutrition Facts', data: [ total_One_timesupply, total_Carbohydrate, total_Protein, total_Fat, total_sugars, total_energy ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255,159,64,0.2)'],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'],
+                borderWidth: 1 }] },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: { beginAtZero: true }
+                }]
+            }
+        }
+    });
+
+    {# 파이 그래프 그리기 #}
+    data = { datasets: [{
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)'],
+        borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)'
+        ],
+        data: [ total_Carbohydrate, total_Protein, total_Fat] }],
+        labels: ['Carbohydrate','Protein','Fat'] };
+
+    var ctx2 = document.getElementById("myChart2");
+    var myDoughnutChart = new Chart(ctx2, { type: 'doughnut', data: data, options: {} });
+
+
+    {# 이전 데이터를 가지고 표 출력 #}
+    let list_len = 0
+    let date_list = []
+    let Carbohydrate_data_list = []
+    let Protein_data_list = []
+    let Fat_data_list = []
+
+    {% for data in info %}
+        date_list[list_len] = "{{ data.create_at }}";
+        Carbohydrate_data_list[list_len] = {{ data.total_Carbohydrate }};
+        Protein_data_list[list_len] = {{ data.total_Protein }};
+        Fat_data_list[list_len] = {{ data.total_Fat }};
+        list_len+=1;
+    {% endfor%}
+
+{#[ Carbohydrate_data_list[0], Carbohydrate_data_list[1], Carbohydrate_data_list[2]#}
+    document.write(Carbohydrate_data_list[0])
+    var ctx3 = document.getElementById('myChart3');
+    var mylineChart = new Chart(ctx3, {
+        type: 'line',
+        data: {
+            labels: [date_list[0], date_list[1], date_list[2]],
+            datasets: [{
+                label : 'Carbohydrate',
+                data:[ Carbohydrate_data_list[0], Carbohydrate_data_list[1], Carbohydrate_data_list[2] ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)'
+                    ],
+                borderWidth: 1 },
+                {
+                label : 'Protein',
+                data:[ Protein_data_list[0], Protein_data_list[1], Protein_data_list[2] ],
+
+                borderColor: [
+                    'rgba(255, 99, 132, 1)'
+                    ],
+                borderWidth: 1 },
+                {
+                label : 'Fat',
+                data:[ Fat_data_list[0], Fat_data_list[1], Fat_data_list[2] ],
+
+                borderColor: [
+                    'rgba(0, 0, 255, 1)'
+                    ],
+                borderWidth: 1 },
+            ]
+        },
+        options: {
+            legend: { display: false },
+            scales: {
+                yAxes: [{
+                    ticks: { beginAtZero: true }
+                }]
+            }
+        }
+    });
+
+</script>
+
+{% endblock %}
